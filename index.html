@@ -337,14 +337,13 @@ window.addEventListener("blur", () => {
     terminateExam("Vous avez quitté la fenêtre de l'épreuve. L'épreuve est terminée et doit être recommencée.");
   }
 });
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
 
-    function handleFullscreenChange() {
-  // If we are no longer in fullscreen, terminate the exam
-  if (!document.fullscreenElement) {
-    terminateExam("Vous avez quitté le mode plein écran. Vous devez recommencer l'épreuve.");
+   document.addEventListener("fullscreenchange", () => {
+  // If we leave fullscreen while the exam is active, terminate it
+  if (examActive && !document.fullscreenElement) {
+    terminateExam("Vous avez quitté le mode plein écran. L'épreuve est terminée et doit être recommencée.");
   }
-}
+});
     
     // Correct answers + word list (auto-filled)
     const correctAnswers = {
