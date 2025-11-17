@@ -321,6 +321,23 @@ Requirements:
     // NEW: flag to avoid duplicate submissions
     let examSubmitted = false;
 
+    // Track whether the exam is currently active
+let examActive = false;
+
+    // If the page becomes hidden (changed tab, changed desktop, other app on top)
+document.addEventListener("visibilitychange", () => {
+  if (examActive && document.hidden) {
+    terminateExam("Vous avez quitté l'écran de l'épreuve. L'épreuve est terminée et doit être recommencée.");
+  }
+});
+
+// If the window loses focus (clicked on another window/app)
+window.addEventListener("blur", () => {
+  if (examActive) {
+    terminateExam("Vous avez quitté la fenêtre de l'épreuve. L'épreuve est terminée et doit être recommencée.");
+  }
+});
+    
     // Correct answers + word list (auto-filled)
     const correctAnswers = {
       "q1":"An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.",
@@ -369,17 +386,37 @@ Requirements:
     }
 
     function enableFullScreen() {
-      if (document.documentElement.requestFullscreen) {
-        document.documentElement.requestFullscreen().catch(()=>{});
-        document.addEventListener("fullscreenchange", () => {
-          if (!document.fullscreenElement) {
-            alert("Épreuve terminée. Le mode plein écran est obligatoire.");
-            location.reload();
-          }
-        });
-      }
-    }
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen().catch(() => {});
 
+    document.addEventListener("fullscreenchange", () => {
+      if (!document.fullscreenElement && examActive) {
+        terminateExam("Vous avez quitté le mode plein écran. Vous devez recommencer l'épreuve.");
+      }
+    });
+  }
+}
+
+    function terminateExam(message) {
+  if (!examActive) return; // nothing to do if not in an active exam
+
+  examActive = false;
+  clearInterval(timer);
+  timeLeft = 40 * 60; // reset timer
+
+  alert(message || "Vous avez quitté l'écran de l'épreuve. Vous devez recommencer.");
+
+  // Reset UI: back to login
+  exam.style.display = "none";
+  confirmSec.style.display = "none";
+  login.style.display = "block";
+
+  // (Optional) re-enable submit button if it was disabled
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Envoyer l'épreuve";
+  }
+}
     function randomizeSelectsKeepFirst() {
       document.querySelectorAll("#partA select").forEach(sel => {
         const opts = Array.from(sel.options);
@@ -394,7 +431,22 @@ Requirements:
         sel.selectedIndex = 0;
       });
     }
+function randomizeQuestionOrder() {
+  const list = document.querySelector("#partA ol");
+  if (!list) return;
 
+  const items = Array.from(list.children);
+
+  // Fisher–Yates shuffle
+  for (let i = items.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+
+  // Re-append items in randomized order
+  items.forEach(li => list.appendChild(li));
+}
+    
     // ----- Start → Confirm -----
     startBtn.addEventListener("click", () => {
       const firstName = (studentFirstNameInput.value || "").trim();
@@ -442,11 +494,14 @@ Requirements:
       partA.classList.add("active");
       partB.classList.remove("active");
 
-      // Anti-cheat & timer & shuffle
-      enableFullScreen();
-      startTimer();
-      randomizeSelectsKeepFirst();
-    }
+  // Mark exam as active
+  examActive = true;
+
+   // Anti-cheat & timer & shuffle
+enableFullScreen();
+startTimer();
+randomizeQuestionOrder();       // NEW — shuffle the 10 questions
+randomizeSelectsKeepFirst();    // existing — shuffle dropdown options
 
     confirmBackBtn.addEventListener("click", () => {
       confirmSec.style.display = "none";
