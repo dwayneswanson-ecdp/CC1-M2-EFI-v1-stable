@@ -338,9 +338,14 @@ window.addEventListener("blur", () => {
   }
 });
 
-   document.addEventListener("fullscreenchange", () => {
-  // If we leave fullscreen while the exam is active, terminate it
+ document.addEventListener("fullscreenchange", () => {
+  console.log("📺 fullscreenchange fired", {
+    examActive,
+    fullscreenElement: !!document.fullscreenElement
+  });
+
   if (examActive && !document.fullscreenElement) {
+    console.log("⛔ Leaving fullscreen while examActive → terminateExam()");
     terminateExam("Vous avez quitté le mode plein écran. L'épreuve est terminée et doit être recommencée.");
   }
 });
@@ -441,6 +446,11 @@ function enableFullScreen() {
 }
 
 function terminateExam(message) {
+   console.log("💣 terminateExam called", {
+    message,
+    examActiveBefore: examActive
+  });
+
   // Stop the timer (if any)
   clearInterval(timer);
 
@@ -550,9 +560,10 @@ function randomizeQuestionOrder() {
       partB.classList.remove("active");
 
       // Mark exam as active
-      examActive = true;
+examActive = true;
+console.log("✅ Exam started – examActive =", examActive);
 
-      // If this is the first time, set the deadline to now + 40 minutes
+// If this is the first time, set the deadline...
 if (!examDeadline) {
   examDeadline = Date.now() + 40 * 60 * 1000;
 }
