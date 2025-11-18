@@ -263,7 +263,15 @@ Requirements:
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    if (window.emailjs) { try { emailjs.init("Bb0oPYBiZGQcyIz5r"); } catch(e){} }
+   if (window.emailjs) {
+  try {
+    emailjs.init({
+      publicKey: "Bb0oPYBiZGQcyIz5r",
+    });
+  } catch (e) {
+    console.error("EmailJS init error:", e);
+  }
+}
 
     // Elements
     const login  = document.getElementById("login");
@@ -722,36 +730,43 @@ if (examDeadline) {
 
       const subject = "(NAME) CC - English - M2 EFI G1".replace("(NAME)", name);
 
-      if (window.emailjs) {
-        emailjs.send("service_opm4h6b", "template_r0u784p", {
-          from_name: name,
-          from_email: email,
-          subject,
-          message_html: htmlReport
-        })
-        .then(() => {
-          alert("✅ Épreuve envoyée avec succès.");
-          exam.style.display = "none";
-        })
-        .catch(err => {
-          alert("❌ Erreur lors de l'envoi de l'épreuve : " + (err && err.text ? err.text : err));
-          console.error("EmailJS Error:", err);
-          // allow retry if there was an error
-          examSubmitted = false;
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.textContent = "Envoyer l'épreuve";
-          }
-        });
-      } else {
-        alert("EmailJS n'est pas chargé ; envoi simulé.");
-        // in this case also re-enable to avoid blocking
-        examSubmitted = false;
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Envoyer l'épreuve";
-        }
+    if (window.emailjs) {
+  emailjs
+    .send(
+      "service_opm4h6b",
+      "template_r0u784p",
+      {
+        from_name: name,
+        from_email: email,
+        subject,
+        message_html: htmlReport,
+      },
+      "Bb0oPYBiZGQcyIz5r" // public key again here
+    )
+    .then(() => {
+      alert("✅ Épreuve envoyée avec succès.");
+      exam.style.display = "none";
+    })
+    .catch((err) => {
+      alert(
+        "❌ Erreur lors de l'envoi de l'épreuve : " +
+          (err && err.text ? err.text : err)
+      );
+      console.error("EmailJS Error:", err);
+      examSubmitted = false;
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Envoyer l'épreuve";
       }
+    });
+} else {
+  alert("EmailJS n'est pas chargé ; envoi simulé.");
+  examSubmitted = false;
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Envoyer l'épreuve";
+  }
+}
     }
   });
 </script>
