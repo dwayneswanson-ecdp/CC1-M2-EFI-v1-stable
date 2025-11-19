@@ -459,20 +459,38 @@ function terminateExam(message) {
     examActiveBefore: examActive
   });
 
-  // Stop timer flags locally
+  // Stop the timer interval, but DO NOT touch examDeadline
   clearInterval(timer);
+
+  // Flags: exam is no longer active, but submission allowed again later
   examActive = false;
   examSubmitted = false;
 
+  // Show the message (user clicks OK to continue)
   alert(message || "Vous avez quitté l'écran de l'épreuve. Vous devez recommencer.");
 
-  // 🧨 Hard reset everything: reload the page
-  // This will:
-  // - Clear Part A answers
-  // - Clear the Quill editor
-  // - Reset the timer
-  // - Show the landing page again
-  location.reload();
+  // 🔄 Clear all answers in the form (Part A + hidden fields)
+  if (form) {
+    form.reset();
+  }
+
+  // 🧹 Clear the Quill editor content (Part B)
+  if (quill) {
+    quill.setText(""); // fully blank
+  }
+
+  // 🔁 Reset UI: ONLY the login card visible
+  if (exam)      exam.style.display = "none";
+  if (confirmSec) confirmSec.style.display = "none";
+  if (login)     login.style.display = "block";
+
+  // Re-enable submit button if it was disabled
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Envoyer l'épreuve";
+  }
+
+  console.log("✅ Exam terminated and reset to login screen.");
 }
     
     function randomizeSelectsKeepFirst() {
