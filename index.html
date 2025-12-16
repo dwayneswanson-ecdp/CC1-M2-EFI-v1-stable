@@ -1,7 +1,6 @@
-
-
-
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="google" content="notranslate">
@@ -13,113 +12,350 @@
   <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
 
   <style>
-    html, body { translate: none !important; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+    /* Anti-copy / anti-translate behaviour – leave as is for exam security */
+    html, body {
+      translate: none !important;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      margin: 0;
+      padding: 0;
+    }
     * { translate: none !important; }
 
+    /* Global body */
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f8f9fb;
-      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif;
+      background: #f5f7fb;
       color: #222;
       font-size: 16px;
       line-height: 1.6;
+      padding-top: 90px; /* space for fixed header */
     }
 
+    /* Fixed exam header */
     header {
-      background: linear-gradient(135deg, #004080, #0066cc);
-      color: #ffffff;
-      padding: 25px 20px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    }
-    header h1 { margin: 0; font-size: 1.9em; letter-spacing: 0.5px; }
-    #timer { text-align: right; font-weight: bold; margin-top: 10px; }
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
 
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+
+      background: #ffffffcc;
+      backdrop-filter: blur(10px);
+      color: #111827;
+      padding: 14px 24px;
+      border-bottom: 1px solid #e1e4f0;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.2rem;
+      letter-spacing: 0.03em;
+      font-weight: 700;
+      color: #2643e9;
+    }
+
+    /* Timer on the right */
+    #timer {
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-align: right;
+      color: #111827;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid #4b5563;
+      background: #ffffff;
+      white-space: nowrap;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+    }
+
+    /* Main exam wrapper */
     main {
       max-width: 900px;
-      margin: 40px auto;
-      background: #fff;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      margin: 24px auto 40px;
+      background: #ffffff;
+      padding: 32px 32px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
     }
 
+    /* Reusable inner cards (intro, confirmation, etc.) */
     .card {
       background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-      padding: 40px;
-      max-width: 520px;
-      margin: 80px auto;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(15, 23, 42, 0.06);
+      padding: 28px 28px 32px;
+      max-width: 640px;
+      margin: 32px auto;
       text-align: left;
+      border: 1px solid #e5e7eb;
     }
-    .card h2 { color: #004080; margin-top: 0; text-align: center; }
 
-    label { display:block; margin: 12px 0 8px; font-weight: bold; }
-    input[type="text"], input[type="email"], select {
-      width: 100%; padding: 10px; border:1px solid #ccc; border-radius:6px;
+    .card h2 {
+      color: #111827;
+      margin-top: 0;
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 600;
     }
-    textarea { width: 100%; padding: 10px; border:1px solid #ccc; border-radius:6px; }
+
+    label {
+      display: block;
+      margin: 12px 0 8px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      color: #111827;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      box-sizing: border-box;
+      background: #ffffff;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
 
     select {
       white-space: normal;
       word-wrap: break-word;
       padding: 8px;
+      background: #ffffff;
     }
 
     button {
-      background:#004080; color:#fff; border:none; padding:12px 28px;
-      border-radius:6px; cursor:pointer; font-size:16px;
+      background: #2643e9;
+      color: #fff;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: inherit;
     }
-    button:hover { background:#003666; }
-    .btn-row { display:flex; gap:12px; flex-wrap: wrap; margin-top: 16px; }
+    button:hover {
+      filter: brightness(0.96);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
     .btn-row.center { justify-content: center; }
-    .btn-row.right { justify-content: flex-end; }
-    .btn-light { background:#e9eef7; color:#004080; }
-    .btn-light:hover { background:#dbe6f7; }
+    .btn-row.right  { justify-content: flex-end; }
 
-    ol { padding-left: 20px; }
-    ol li { margin-bottom: 14px; }
-
-    #exam, #confirm, #partA, #partB { display: none; }
-    #partA.active, #partB.active { display: block; }
-
-    .editor-card {
-      border:1px solid #e3e6ee; border-radius:12px; overflow:hidden; box-shadow:0 2px 6px rgba(0,0,0,0.06);
+    .btn-light {
+      background: #eef2ff;
+      color: #2643e9;
+      border: 1px solid #c7d2fe;
     }
-    .ql-toolbar.ql-snow { border:none; border-bottom:1px solid #e3e6ee; background:#f9fbff; }
-    .ql-container.ql-snow { border:none; min-height: 260px; }
-    .ql-editor { min-height: 240px; }
-    .muted { color:#666; font-size: 14px; }
-  /* ... your existing styles ... */
+    .btn-light:hover {
+      background: #e0e7ff;
+    }
 
-  .name-row {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  .name-row .field {
-    flex: 1 1 0;
-  }
+    ol {
+      padding-left: 20px;
+    }
+    ol li {
+      margin-bottom: 14px;
+      font-size: 0.95rem;
+    }
 
-  /* visually force uppercase display on last name */
-  .upper {
-    text-transform: uppercase;
-  }
+    /* STEP / PART VISIBILITY – functional */
+    #exam,
+    #confirm,
+    #partA,
+    #partB {
+      display: none;
+    }
+    #partA.active,
+    #partB.active {
+      display: block;
+    }
+
+    /* Quill editor container */
+    .editor-card {
+      border: 1px solid #e3e6ee;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06);
+      margin-top: 12px;
+    }
+
+    .ql-toolbar.ql-snow {
+      border: none;
+      border-bottom: 1px solid #e3e6ee;
+      background: #f9fbff;
+    }
+
+    .ql-container.ql-snow {
+      border: none;
+      min-height: 260px;
+      background: #ffffff;
+    }
+
+    .ql-editor {
+      min-height: 240px;
+      font-size: 0.95rem;
+    }
+
+    .muted {
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    /* Name row layout */
+    .name-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .name-row .field {
+      flex: 1 1 0;
+    }
+
+    /* Visually force uppercase display on last name */
+    .upper {
+      text-transform: uppercase;
+    }
+
+    /* === Part A – Vocabulary Matching layout === */
+    #partA h2 {
+      text-align: left;
+      margin-bottom: 0.5rem;
+    }
+
+    .partA-intro {
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin-bottom: 1.25rem;
+    }
+
+    #partA ol {
+      margin: 0;
+      padding-left: 1.5rem;
+    }
+
+    #partA ol li {
+      margin-bottom: 12px;
+    }
+
+    .vocab-row {
+      display: grid;
+      grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+      column-gap: 18px;
+      align-items: center;
+    }
+
+    .vocab-term {
+      font-size: 0.95rem;
+      color: #111827;
+      font-weight: 500;
+    }
+
+    .vocab-select {
+      margin: 0;
+    }
+
+    /* Blur background when exit warning is active */
+    body.exit-lock {
+      overflow: hidden;
+    }
+    body.exit-lock header,
+    body.exit-lock main {
+      filter: blur(6px);
+      pointer-events: none;
+    }
+
+    body.overlay-active main,
+    body.overlay-active header {
+      filter: blur(5px);
+      pointer-events: none;
+    }
+
+    body.overlay-active {
+      overflow: hidden;
+    }
+
+    /* Mobile layout tweaks */
+    @media (max-width: 720px) {
+      .vocab-row {
+        grid-template-columns: 1fr;
+        row-gap: 6px;
+      }
+    }
+
+    @media (max-width: 720px) {
+      body {
+        padding-top: 100px;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        padding-inline: 16px;
+      }
+
+      #timer {
+        align-self: flex-end;
+      }
+
+      main {
+        margin: 16px auto 32px;
+        padding: 24px 16px 32px;
+        border-radius: 12px;
+      }
+
+      .card {
+        margin: 24px auto;
+        padding: 20px 18px 24px;
+        max-width: 100%;
+      }
+    }
   </style>
-
-
+</head>
+<body>
 
   <header>
-    <h1>CC - English — Risk & Financial Control (M2EFIG1)</h1>
+    <h1 id="examTitleHeader">CC - English — Risk &amp; Financial Control</h1>
     <div id="timer"></div>
   </header>
 
   <main>
-        <!-- LOGIN -->
+    <!-- Translation sentinel for anti-translate detection -->
+    <span id="langSentinel" style="display:none;">
+      This reference sentence is used only to detect automatic translation of the exam page.
+    </span>
+
+    <!-- LOGIN -->
     <section id="login" class="card">
       <h2>Commencer l'épreuve</h2>
-      <p>Merci de renseigner vos informations pour commencer. Une fois l’épreuve lancée, vous disposerez de <b>40 minutes</b> pour la compléter.</p>
+      <p>
+        Merci de renseigner vos informations pour commencer.
+        Une fois l’épreuve lancée, vous disposerez de <b>40 minutes</b> pour la compléter.
+      </p>
 
       <label>Nom et prénom :</label>
       <div class="name-row">
@@ -134,6 +370,12 @@
       <label>Adresse e-mail :</label>
       <input type="email" id="studentEmail" required>
 
+      <label>Groupe :</label>
+      <select id="groupSelect" required>
+        <option value="">Sélectionner votre groupe</option>
+        <option value="M2 EFI G1">M2 EFI G1</option>
+      </select>
+
       <label>Code de classe :</label>
       <input type="text" id="classCode" required>
 
@@ -144,12 +386,27 @@
 
     <!-- CONFIRM -->
     <section id="confirm" class="card">
-      <h2>Veuillez confirmer vos informations</h2>
+      <h2>Avant de commencer l’épreuve</h2>
+
+      <p class="muted"><strong>Comment fonctionne l’épreuve&nbsp;?</strong></p>
+      <ul class="muted">
+        <li>L’épreuve se déroule en <strong>plein écran</strong>.</li>
+        <li>Si vous quittez la fenêtre ou changez d’application, un <strong>message d’avertissement</strong> apparaît.</li>
+        <li>Vous avez <strong>15&nbsp;secondes</strong> pour revenir, sinon l’épreuve est arrêtée et devra être recommencée.</li>
+        <li>Après <strong>3 évènements techniques</strong> (sortie du plein écran, changement de fenêtre, etc.), l’épreuve est <strong>envoyée automatiquement</strong> à l’enseignant.</li>
+        <li>Tous ces évènements sont enregistrés dans un <strong>récapitulatif technique de session</strong> joint à votre copie.</li>
+      </ul>
+
+      <hr style="margin:18px 0; border:none; border-top:1px solid #e5e7eb;">
+
+      <p class="muted"><strong>Vérifiez vos informations</strong></p>
       <p><b>Nom &amp; prénom :</b> <span id="confirmName"></span></p>
       <p><b>Email :</b> <span id="confirmEmail"></span></p>
+      <p><b>Groupe :</b> <span id="confirmGroup"></span></p>
       <p class="muted">
-        Veuillez vérifier que ces informations sont correctes. Si quelque chose ne l’est pas, cliquez sur « Modifier » pour revenir à l’écran précédent.
+        Si quelque chose n’est pas correct, cliquez sur «&nbsp;Modifier&nbsp;» pour revenir à l’écran précédent.
       </p>
+
       <div class="btn-row">
         <button type="button" class="btn-light" id="confirmBackBtn">← Modifier</button>
         <button type="button" id="confirmBeginBtn">Commencer l'épreuve →</button>
@@ -161,357 +418,461 @@
       <form id="examForm">
         <input type="hidden" name="studentName" id="studentNameField">
         <input type="hidden" name="studentEmail" id="studentEmailField">
-        <input type="hidden" name="classCode" id="classCodeField">
+        <input type="hidden" name="classCode"  id="classCodeField">
+        <input type="hidden" name="groupName"  id="groupNameField">
 
         <!-- PART A -->
         <div id="partA" class="active">
           <h2>Part A – Vocabulary Matching</h2>
+          <p class="partA-intro">
+            Match each risk &amp; financial control concept with the correct definition
+            by selecting an option in the dropdown list.
+          </p>
+
           <ol>
-            <li>Audit
-        <select name="q1">
-          <option value="">-- Choose --</option><option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option><option>The system of rules, roles, and processes used to direct and control a company</option><option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option><option>A financial reserve for a potential future expense or loss</option><option>An intentional act of deception for personal or corporate gain</option><option>A legal responsibility to pay for damages or debts</option><option>Combining the financial results of different subsidiaries</option><option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option><option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option><option>Adhering to laws, regulations, standards, and internal policies</option>
-        </select>
-      </li>
-<li>Governance
-        <select name="q2">
-          <option value="">-- Choose --</option><option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option><option>The system of rules, roles, and processes used to direct and control a company</option><option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option><option>A financial reserve for a potential future expense or loss</option><option>An intentional act of deception for personal or corporate gain</option><option>A legal responsibility to pay for damages or debts</option><option>Combining the financial results of different subsidiaries</option><option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option><option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option><option>Adhering to laws, regulations, standards, and internal policies</option>
-        </select>
-      </li>
-<li>Risk Mapping
-        <select name="q3">
-          <option value="">-- Choose --</option><option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option><option>The system of rules, roles, and processes used to direct and control a company</option><option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option><option>A financial reserve for a potential future expense or loss</option><option>An intentional act of deception for personal or corporate gain</option><option>A legal responsibility to pay for damages or debts</option><option>Combining the financial results of different subsidiaries</option><option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option><option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option><option>Adhering to laws, regulations, standards, and internal policies</option>
-        </select>
-      </li>
-<li>Provisions
-        <select name="q4">
-          <option value="">-- Choose --</option><option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option><option>The system of rules, roles, and processes used to direct and control a company</option><option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option><option>A financial reserve for a potential future expense or loss</option><option>An intentional act of deception for personal or corporate gain</option><option>A legal responsibility to pay for damages or debts</option><option>Combining the financial results of different subsidiaries</option><option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option><option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option><option>Adhering to laws, regulations, standards, and internal policies</option>
-        </select>
-      </li>
-<li>Fraud
-        <select name="q5">
-          <option value="">-- Choose --</option><option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option><option>The system of rules, roles, and processes used to direct and control a company</option><option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option><option>A financial reserve for a potential future expense or loss</option><option>An intentional act of deception for personal or corporate gain</option><option>A legal responsibility to pay for damages or debts</option><option>Combining the financial results of different subsidiaries</option><option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option><option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option><option>Adhering to laws, regulations, standards, and internal policies</option>
-        </select>
-      </li>
-<li>Liability
-        <select name="q6">
-          <option value="">-- Choose --</option><option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option><option>The system of rules, roles, and processes used to direct and control a company</option><option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option><option>A financial reserve for a potential future expense or loss</option><option>An intentional act of deception for personal or corporate gain</option><option>A legal responsibility to pay for damages or debts</option><option>Combining the financial results of different subsidiaries</option><option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option><option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option><option>Adhering to laws, regulations, standards, and internal policies</option>
-        </select>
-      </li>
-<li>Consolidation
-        <select name="q7">
-          <option value="">-- Choose --</option><option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option><option>The system of rules, roles, and processes used to direct and control a company</option><option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option><option>A financial reserve for a potential future expense or loss</option><option>An intentional act of deception for personal or corporate gain</option><option>A legal responsibility to pay for damages or debts</option><option>Combining the financial results of different subsidiaries</option><option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option><option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option><option>Adhering to laws, regulations, standards, and internal policies</option>
-        </select>
-      </li>
-<li>Impairment
-        <select name="q8">
-          <option value="">-- Choose --</option><option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option><option>The system of rules, roles, and processes used to direct and control a company</option><option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option><option>A financial reserve for a potential future expense or loss</option><option>An intentional act of deception for personal or corporate gain</option><option>A legal responsibility to pay for damages or debts</option><option>Combining the financial results of different subsidiaries</option><option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option><option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option><option>Adhering to laws, regulations, standards, and internal policies</option>
-        </select>
-      </li>
-<li>Stakeholder
-        <select name="q9">
-          <option value="">-- Choose --</option><option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option><option>The system of rules, roles, and processes used to direct and control a company</option><option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option><option>A financial reserve for a potential future expense or loss</option><option>An intentional act of deception for personal or corporate gain</option><option>A legal responsibility to pay for damages or debts</option><option>Combining the financial results of different subsidiaries</option><option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option><option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option><option>Adhering to laws, regulations, standards, and internal policies</option>
-        </select>
-      </li>
-<li>Compliance
-        <select name="q10">
-          <option value="">-- Choose --</option><option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option><option>The system of rules, roles, and processes used to direct and control a company</option><option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option><option>A financial reserve for a potential future expense or loss</option><option>An intentional act of deception for personal or corporate gain</option><option>A legal responsibility to pay for damages or debts</option><option>Combining the financial results of different subsidiaries</option><option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option><option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option><option>Adhering to laws, regulations, standards, and internal policies</option>
-        </select>
-      </li>
+            <li>
+              <div class="vocab-row">
+                <span class="vocab-term">Audit</span>
+                <select name="q1" class="vocab-select">
+                  <option value="">Select a definition</option>
+                  <option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option>
+                  <option>The system of rules, roles, and processes used to direct and control a company</option>
+                  <option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option>
+                  <option>A financial reserve for a potential future expense or loss</option>
+                  <option>An intentional act of deception for personal or corporate gain</option>
+                  <option>A legal responsibility to pay for damages or debts</option>
+                  <option>Combining the financial results of different subsidiaries</option>
+                  <option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option>
+                  <option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option>
+                  <option>Adhering to laws, regulations, standards, and internal policies</option>
+                </select>
+              </div>
+            </li>
+
+            <li>
+              <div class="vocab-row">
+                <span class="vocab-term">Governance</span>
+                <select name="q2" class="vocab-select">
+                  <option value="">Select a definition</option>
+                  <option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option>
+                  <option>The system of rules, roles, and processes used to direct and control a company</option>
+                  <option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option>
+                  <option>A financial reserve for a potential future expense or loss</option>
+                  <option>An intentional act of deception for personal or corporate gain</option>
+                  <option>A legal responsibility to pay for damages or debts</option>
+                  <option>Combining the financial results of different subsidiaries</option>
+                  <option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option>
+                  <option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option>
+                  <option>Adhering to laws, regulations, standards, and internal policies</option>
+                </select>
+              </div>
+            </li>
+
+            <li>
+              <div class="vocab-row">
+                <span class="vocab-term">Risk Mapping</span>
+                <select name="q3" class="vocab-select">
+                  <option value="">Select a definition</option>
+                  <option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option>
+                  <option>The system of rules, roles, and processes used to direct and control a company</option>
+                  <option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option>
+                  <option>A financial reserve for a potential future expense or loss</option>
+                  <option>An intentional act of deception for personal or corporate gain</option>
+                  <option>A legal responsibility to pay for damages or debts</option>
+                  <option>Combining the financial results of different subsidiaries</option>
+                  <option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option>
+                  <option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option>
+                  <option>Adhering to laws, regulations, standards, and internal policies</option>
+                </select>
+              </div>
+            </li>
+
+            <li>
+              <div class="vocab-row">
+                <span class="vocab-term">Provisions</span>
+                <select name="q4" class="vocab-select">
+                  <option value="">Select a definition</option>
+                  <option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option>
+                  <option>The system of rules, roles, and processes used to direct and control a company</option>
+                  <option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option>
+                  <option>A financial reserve for a potential future expense or loss</option>
+                  <option>An intentional act of deception for personal or corporate gain</option>
+                  <option>A legal responsibility to pay for damages or debts</option>
+                  <option>Combining the financial results of different subsidiaries</option>
+                  <option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option>
+                  <option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option>
+                  <option>Adhering to laws, regulations, standards, and internal policies</option>
+                </select>
+              </div>
+            </li>
+
+            <li>
+              <div class="vocab-row">
+                <span class="vocab-term">Fraud</span>
+                <select name="q5" class="vocab-select">
+                  <option value="">Select a definition</option>
+                  <option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option>
+                  <option>The system of rules, roles, and processes used to direct and control a company</option>
+                  <option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option>
+                  <option>A financial reserve for a potential future expense or loss</option>
+                  <option>An intentional act of deception for personal or corporate gain</option>
+                  <option>A legal responsibility to pay for damages or debts</option>
+                  <option>Combining the financial results of different subsidiaries</option>
+                  <option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option>
+                  <option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option>
+                  <option>Adhering to laws, regulations, standards, and internal policies</option>
+                </select>
+              </div>
+            </li>
+
+            <li>
+              <div class="vocab-row">
+                <span class="vocab-term">Liability</span>
+                <select name="q6" class="vocab-select">
+                  <option value="">Select a definition</option>
+                  <option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option>
+                  <option>The system of rules, roles, and processes used to direct and control a company</option>
+                  <option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option>
+                  <option>A financial reserve for a potential future expense or loss</option>
+                  <option>An intentional act of deception for personal or corporate gain</option>
+                  <option>A legal responsibility to pay for damages or debts</option>
+                  <option>Combining the financial results of different subsidiaries</option>
+                  <option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option>
+                  <option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option>
+                  <option>Adhering to laws, regulations, standards, and internal policies</option>
+                </select>
+              </div>
+            </li>
+
+            <li>
+              <div class="vocab-row">
+                <span class="vocab-term">Consolidation</span>
+                <select name="q7" class="vocab-select">
+                  <option value="">Select a definition</option>
+                  <option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option>
+                  <option>The system of rules, roles, and processes used to direct and control a company</option>
+                  <option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option>
+                  <option>A financial reserve for a potential future expense or loss</option>
+                  <option>An intentional act of deception for personal or corporate gain</option>
+                  <option>A legal responsibility to pay for damages or debts</option>
+                  <option>Combining the financial results of different subsidiaries</option>
+                  <option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option>
+                  <option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option>
+                  <option>Adhering to laws, regulations, standards, and internal policies</option>
+                </select>
+              </div>
+            </li>
+
+            <li>
+              <div class="vocab-row">
+                <span class="vocab-term">Impairment</span>
+                <select name="q8" class="vocab-select">
+                  <option value="">Select a definition</option>
+                  <option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option>
+                  <option>The system of rules, roles, and processes used to direct and control a company</option>
+                  <option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option>
+                  <option>A financial reserve for a potential future expense or loss</option>
+                  <option>An intentional act of deception for personal or corporate gain</option>
+                  <option>A legal responsibility to pay for damages or debts</option>
+                  <option>Combining the financial results of different subsidiaries</option>
+                  <option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option>
+                  <option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option>
+                  <option>Adhering to laws, regulations, standards, and internal policies</option>
+                </select>
+              </div>
+            </li>
+
+            <li>
+              <div class="vocab-row">
+                <span class="vocab-term">Stakeholder</span>
+                <select name="q9" class="vocab-select">
+                  <option value="">Select a definition</option>
+                  <option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option>
+                  <option>The system of rules, roles, and processes used to direct and control a company</option>
+                  <option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option>
+                  <option>A financial reserve for a potential future expense or loss</option>
+                  <option>An intentional act of deception for personal or corporate gain</option>
+                  <option>A legal responsibility to pay for damages or debts</option>
+                  <option>Combining the financial results of different subsidiaries</option>
+                  <option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option>
+                  <option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option>
+                  <option>Adhering to laws, regulations, standards, and internal policies</option>
+                </select>
+              </div>
+            </li>
+
+            <li>
+              <div class="vocab-row">
+                <span class="vocab-term">Compliance</span>
+                <select name="q10" class="vocab-select">
+                  <option value="">Select a definition</option>
+                  <option>An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.</option>
+                  <option>The system of rules, roles, and processes used to direct and control a company</option>
+                  <option>Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.</option>
+                  <option>A financial reserve for a potential future expense or loss</option>
+                  <option>An intentional act of deception for personal or corporate gain</option>
+                  <option>A legal responsibility to pay for damages or debts</option>
+                  <option>Combining the financial results of different subsidiaries</option>
+                  <option>When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss</option>
+                  <option>Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).</option>
+                  <option>Adhering to laws, regulations, standards, and internal policies</option>
+                </select>
+              </div>
+            </li>
           </ol>
+
           <div class="btn-row right">
-            <button type="button" id="toPartB">Next → Part B</button>
+            <button type="button" id="toPartB">Suivant → Part B</button>
           </div>
         </div>
 
         <!-- PART B -->
         <div id="partB">
           <h2>Part B – Writing Task</h2>
-          <p class="muted">“PayGate Ltd — Possible Fraud Risk”
 
-You are a Financial Controller at PayGate Ltd, a European online-payment company.
+          <p class="muted"><strong>Context – “PayGate Ltd — Possible Fraud Risk”</strong></p>
+          <p class="muted">
+            You are a Financial Controller at <strong>PayGate Ltd</strong>, a European online-payment company.
+          </p>
+          <p class="muted">
+            During a recent internal audit, you noticed that the company’s Asian branch reports very large profits,
+            but the local bank accounts do not show the same cash balance. The local managers say the money is held
+            by a third-party partner, but they refuse to share official documents.
+          </p>
 
-During a recent internal audit, you noticed that the company’s Asian branch reports very large profits, but the local bank accounts do not show the same cash balance. The local managers say the money is held by a third-party partner, but they refuse to share official documents.
+          <p class="muted"><strong>Task</strong></p>
+          <p class="muted">
+            Write an email to your <strong>Chief Financial Officer (CFO)</strong> or <strong>Audit Manager</strong> to:
+          </p>
+          <ul class="muted">
+            <li>Summarize what you discovered,</li>
+            <li>Explain the risks to the company (financial, legal, or reputational),</li>
+            <li>Recommend what action should be taken next.</li>
+          </ul>
 
-Write an email to your Chief Financial Officer (CFO) or Audit Manager to:
-
-1. Summarize what you discovered,
-2. Explain the risks to the company (financial, legal, or reputational),
-3. Recommend what action should be taken next
-
-Requirements:
-
-1. Use at least three vocabulary words from Section A
-
-2. Follow a clear professional structure: Subject → Greeting → Body →    Closing.</p>
+          <p class="muted"><strong>Requirements</strong></p>
+          <ul class="muted">
+            <li>Use at least <strong>three (3)</strong> vocabulary words from Section A.</li>
+            <li>
+              Follow a clear professional email structure:
+              <em>Subject → Greeting → Body → Closing</em>.
+            </li>
+            <li>Use formal, professional language and write a coherent, well-organised email.</li>
+          </ul>
 
           <div class="editor-card">
             <div id="editor"></div>
           </div>
 
           <div class="btn-row">
-            <button type="button" class="btn-light" id="toPartA">← Back to Part A</button>
-            <button type="submit">Submit Exam</button>
+            <button type="button" class="btn-light" id="toPartA">← Retour à la partie A</button>
+            <button type="submit">Envoyer l'épreuve</button>
           </div>
         </div>
       </form>
     </section>
   </main>
 
-  <!-- JS at the end (load once) -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
+  <!-- Exit warning overlay -->
+  <div id="exitOverlay" style="
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(15,23,42,0.80);
+    backdrop-filter:blur(6px);
+    z-index:2000;
+    align-items:center;
+    justify-content:center;
+  ">
+    <div style="
+      background:#ffffff;
+      max-width:420px;
+      width:90%;
+      border-radius:16px;
+      padding:20px 22px 18px;
+      box-shadow:0 18px 45px rgba(15,23,42,0.25);
+      font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    ">
+      <h2 style="margin:0 0 8px 0; font-size:1rem; color:#111827;">
+        Quitter l’épreuve ?
+      </h2>
+      <div id="exitOverlayStrike" style="
+        margin:4px 0 6px 0;
+        font-size:1.5rem;
+        font-weight:700;
+        color:#b91c1c;
+        letter-spacing:0.06em;
+        text-transform:uppercase;
+        text-align:left;
+      ">
+      </div>
+      <p id="exitOverlayMessage" style="margin:0 0 8px 0; font-size:0.9rem; color:#4b5563;">
+        Vous êtes sur le point de quitter l’écran de l’épreuve.
+        Si vous continuez, votre épreuve sera effacée.
+      </p>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-   if (window.emailjs) {
-  try {
-    emailjs.init({
-      publicKey: "Bb0oPYBiZGQcyIz5r",
-    });
-  } catch (e) {
-    console.error("EmailJS init error:", e);
-  }
-}
+      <p id="exitOverlayCountdownText" style="margin:0 0 4px 0; font-size:0.9rem; color:#6b7280; text-align:center;">
+        Vous avez 15&nbsp;secondes pour rester dans l’épreuve avant qu’elle ne soit interrompue.
+      </p>
+      <div id="exitOverlayCountdownDigits" style="
+        font-size:2.6rem;
+        font-weight:700;
+        text-align:center;
+        margin:0 0 16px 0;
+        color:#111827;
+      ">
+        15
+      </div>
 
-    // Elements
-    const login  = document.getElementById("login");
-    const confirmSec = document.getElementById("confirm");
-    const exam   = document.getElementById("exam");
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:8px;">
+        <button type="button" id="exitOverlayStay" style="
+          padding:8px 16px;
+          border-radius:999px;
+          border:1px solid #c7d2fe;
+          background:#eef2ff;
+          color:#2643e9;
+          font-size:0.9rem;
+          font-weight:600;
+          cursor:pointer;
+        ">
+          Rester dans l’épreuve
+        </button>
+        <button type="button" id="exitOverlayLeave" style="
+          padding:8px 16px;
+          border-radius:999px;
+          border:none;
+          background:#b91c1c;
+          color:#fff;
+          font-size:0.9rem;
+          font-weight:600;
+          cursor:pointer;
+        ">
+          Quitter et effacer
+        </button>
+      </div>
+    </div>
+  </div>
 
-    const startBtn = document.getElementById("startBtn");
-    const confirmBackBtn  = document.getElementById("confirmBackBtn");
-    const confirmBeginBtn = document.getElementById("confirmBeginBtn");
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
 
-    const confirmName  = document.getElementById("confirmName");
-    const confirmEmail = document.getElementById("confirmEmail");
-
-    const partA = document.getElementById("partA");
-    const partB = document.getElementById("partB");
-    const toPartA = document.getElementById("toPartA");
-    const toPartB = document.getElementById("toPartB");
-
-    const timerDisplay = document.getElementById("timer");
-    const form = document.getElementById("examForm");
-
-    // NEW: name inputs
-    const studentFirstNameInput = document.getElementById("studentFirstName");
-    const studentLastNameInput  = document.getElementById("studentLastName");
-    const studentEmailInput     = document.getElementById("studentEmail");
-    const classCodeInput        = document.getElementById("classCode");
-
-    // NEW: submit button (for disabling on send)
-    const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
-
-    // Guard: if any required node missing, stop and log
-    const required = [
-      login, confirmSec, exam, startBtn, confirmBackBtn, confirmBeginBtn,
-      confirmName, confirmEmail, partA, partB, toPartA, toPartB,
-      timerDisplay, form, studentFirstNameInput, studentLastNameInput, studentEmailInput, classCodeInput
-    ];
-    if (required.some(n => !n)) {
-      console.error("Missing required DOM nodes. Check IDs.", {
-        login, confirmSec, exam, startBtn, confirmBackBtn, confirmBeginBtn,
-        confirmName, confirmEmail, partA, partB, toPartA, toPartB,
-        timerDisplay, form, studentFirstNameInput, studentLastNameInput, studentEmailInput, classCodeInput
-      });
-      return;
-    }
-
-    // Force LAST NAME to uppercase on input
-    studentLastNameInput.addEventListener("input", () => {
-      studentLastNameInput.value = studentLastNameInput.value.toUpperCase();
-    });
-
-    // Timer
-  let examDeadline = null; // timestamp (ms) when 40 minutes are over
-let timer;
-
-    // NEW: flag to avoid duplicate submissions
-    let examSubmitted = false;
-
-    // Track whether the exam is currently active
-let examActive = false;
-
-    // Track whether we are in the brief "starting exam" phase
-let isStartingExam = false;
-
-    // If the page becomes hidden (changed tab, changed desktop, other app on top)
-document.addEventListener("visibilitychange", () => {
-  if (isStartingExam) {
-    console.log("⏱ Ignoring visibilitychange during exam startup");
-    return;
-  }
-  if (examActive && document.hidden) {
-    terminateExam(
-      "Vous avez quitté l'écran de l'épreuve. L'épreuve est terminée et doit être recommencée."
-    );
-  }
-});
-
-// If the window loses focus (clicked on another window/app)
-window.addEventListener("blur", () => {
-  if (isStartingExam) {
-    console.log("⏱ Ignoring blur during exam startup");
-    return;
-  }
-  if (examActive) {
-    terminateExam(
-      "Vous avez quitté la fenêtre de l'épreuve. L'épreuve est terminée et doit être recommencée."
-    );
-  }
-});
-
- document.addEventListener("fullscreenchange", () => {
-  console.log("📺 fullscreenchange fired", {
-    examActive,
-    fullscreenElement: !!document.fullscreenElement
-  });
-
-  if (examActive && !document.fullscreenElement) {
-    console.log("⛔ Leaving fullscreen while examActive → terminateExam()");
-    terminateExam("Vous avez quitté le mode plein écran. L'épreuve est terminée et doit être recommencée.");
-  }
-});
-    
-    // Correct answers + word list (auto-filled)
-    const correctAnswers = {
-      "q1":"An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.",
-      "q2":"The system of rules, roles, and processes used to direct and control a company",
-      "q3":"Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.",
-      "q4":"A financial reserve for a potential future expense or loss",
-      "q5":"An intentional act of deception for personal or corporate gain",
-      "q6":"A legal responsibility to pay for damages or debts",
-      "q7":"Combining the financial results of different subsidiaries",
-      "q8":"When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss",
-      "q9":"Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).",
-      "q10":"Adhering to laws, regulations, standards, and internal policies"
+  <script>
+    // ----- Global configuration for this exam -----
+    const EXAM_CONFIG = {
+      examId: "M2EFIG1_CC_RISK_2025",
+      classCode: "BLANK",        // <-- put real code here before exam
+      debugCode: "DEBUG",
+      examTitleBase: "CC - English — Risk & Financial Control",
+      allowedGroups: ["M2 EFI G1"],
+      timeLimitMinutes: 40,
+      emailSubjectTemplate: "(NAME) CC - English - M2 EFI G1",
+      classLabel: "M2EFIG1"
     };
+
+    const DEADLINE_KEY = "examDeadline_" + EXAM_CONFIG.examId;
+    let examDeadline = null;
+    let timer = null;
+    let quill = null;
+    let isMobile = false;
+    let safeBlurUntil = 0;
+
+    // Anti-cheat counters + countdown
+    let violationCount = 0;
+    const MAX_VIOLATIONS  = 3;
+    const MAX_WARNINGS    = MAX_VIOLATIONS - 1;
+    let exitCountdownTimer = null;
+    let exitSecondsRemaining = 0;
+
+    let selectedGroup = "";
+    let currentExamTitle = EXAM_CONFIG.examTitleBase;
+
+    function armSafeBlur(ms = 1200) {
+      safeBlurUntil = Date.now() + ms;
+    }
+
+    // Restore deadline ONLY if still valid
+    (function restoreDeadline() {
+      const stored = localStorage.getItem(DEADLINE_KEY);
+      if (!stored) return;
+      const parsed = parseInt(stored, 10);
+      if (!Number.isNaN(parsed) && parsed > Date.now()) {
+        examDeadline = parsed;
+        console.log("⏱ Restored valid examDeadline:", new Date(examDeadline).toISOString());
+      } else {
+        console.log("⏱ Stored examDeadline expired/invalid → clearing.");
+        localStorage.removeItem(DEADLINE_KEY);
+      }
+    })();
+
+    // Correct answers + word list (Part A)
+    const correctAnswers = {
+      q1: "An independent examination of a company’s accounts, processes, and controls to give reasonable assurance that the financial statements are free from misstatement.",
+      q2: "The system of rules, roles, and processes used to direct and control a company",
+      q3: "Identifying key risks, estimating likelihood and impact, and visualizing them to prioritize actions.",
+      q4: "A financial reserve for a potential future expense or loss",
+      q5: "An intentional act of deception for personal or corporate gain",
+      q6: "A legal responsibility to pay for damages or debts",
+      q7: "Combining the financial results of different subsidiaries",
+      q8: "When an asset (like equipment or goodwill) loses value, and the company must reduce its value in the financial statements to reflect that loss",
+      q9: "Any party affected by or interested in the company (shareholders, employees, customers, suppliers, lenders, regulators, communities).",
+      q10: "Adhering to laws, regulations, standards, and internal policies"
+    };
+
     const wordNames = [
-      "Audit","Governance","Risk Mapping","Provisions","Fraud",
-      "Liability","Consolidation","Impairment","Stakeholder","Compliance"
+      "Audit",
+      "Governance",
+      "Risk Mapping",
+      "Provisions",
+      "Fraud",
+      "Liability",
+      "Consolidation",
+      "Impairment",
+      "Stakeholder",
+      "Compliance"
     ];
 
-// Lazy Quill
-let quill = null;
-function ensureQuill() {
-  if (!quill) {
-    quill = new Quill('#editor', {
-      theme: 'snow',
-      modules: {
-        toolbar: [
-          ['bold','italic','underline'],
-          [{ list: 'ordered' }, { list: 'bullet' }],
-          ['clean']
-        ]
-      }
-    });
+    // Create Quill lazily (only when Part B is shown)
+    function ensureQuill() {
+      if (quill) return;
 
-    // 🔒 Disable ALL right-click + context menu inside editor
-    quill.root.addEventListener("contextmenu", (e) => {
-      e.preventDefault();
-    });
+      quill = new Quill("#editor", {
+        theme: "snow",
+        modules: {
+          toolbar: [
+            ["bold", "italic", "underline"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            ["clean"]
+          ]
+        }
+      });
 
-    // 🔒 Disable paste
-    quill.root.addEventListener("paste", (e) => {
-      e.preventDefault();
-    });
+      const root = quill.root;
 
-    // 🔒 Disable copy
-    quill.root.addEventListener("copy", (e) => {
-      e.preventDefault();
-    });
+      ["focus", "click", "keydown"].forEach(evt => {
+        root.addEventListener(evt, () => {
+          if (isMobile) armSafeBlur(1500);
+        });
+      });
 
-    // 🔒 Disable cut
-    quill.root.addEventListener("cut", (e) => {
-      e.preventDefault();
-    });
-
-    // 🔒 Disable drag & drop text into editor
-    quill.root.addEventListener("drop", (e) => {
-      e.preventDefault();
-    });
-
-    // 🔒 Disable copy/paste/cut/select-all via keyboard (Mac + Windows)
-    quill.root.addEventListener("keydown", (e) => {
-      if ((e.metaKey || e.ctrlKey) && ["c", "v", "x", "a"].includes(e.key.toLowerCase())) {
-        e.preventDefault();
-      }
-    });
-  }
-}
-    
-   function startTimer() {
-  clearInterval(timer);
-
-  timer = setInterval(() => {
-    if (!examDeadline) return;
-
-    const now = Date.now();
-    const remainingMs = examDeadline - now;
-    const totalSec = Math.max(0, Math.floor(remainingMs / 1000));
-    const m = Math.floor(totalSec / 60);
-    const s = totalSec % 60;
-
-    timerDisplay.textContent = `Time Remaining: ${m}:${s.toString().padStart(2, "0")}`;
-
-    if (remainingMs <= 0) {
-      clearInterval(timer);
-      // time is over → force submission (or termination if you prefer)
-      submitExam();
+      // Lock down copy/paste etc. inside editor
+      root.addEventListener("contextmenu", e => e.preventDefault());
+      root.addEventListener("paste",      e => e.preventDefault());
+      root.addEventListener("copy",       e => e.preventDefault());
+      root.addEventListener("cut",        e => e.preventDefault());
+      root.addEventListener("drop",       e => e.preventDefault());
+      root.addEventListener("keydown", e => {
+        if ((e.ctrlKey || e.metaKey) && ["c", "v", "x", "a"].includes(e.key.toLowerCase())) {
+          e.preventDefault();
+        }
+      });
     }
-  }, 1000);
-}
 
-function enableFullScreen() {
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen().catch(() => {});
-  }
-}
-
-function terminateExam(message) {
-  console.log("💣 terminateExam called", {
-    message,
-    examActiveBefore: examActive
-  });
-
-  // Stop the timer interval, but DO NOT touch examDeadline
-  clearInterval(timer);
-
-  // Flags: exam is no longer active, but submission allowed again later
-  examActive = false;
-  examSubmitted = false;
-
-  // Show the message (user clicks OK to continue)
-  alert(message || "Vous avez quitté l'écran de l'épreuve. Vous devez recommencer.");
-
-  // 🔄 Clear all answers in the form (Part A + hidden fields)
-  if (form) {
-    form.reset();
-  }
-
-  // 🧹 Clear the Quill editor content (Part B)
-  if (quill) {
-    quill.setText(""); // fully blank
-  }
-
-  // 🔁 Reset UI: ONLY the login card visible
-  if (exam)      exam.style.display = "none";
-  if (confirmSec) confirmSec.style.display = "none";
-  if (login)     login.style.display = "block";
-
-  // Re-enable submit button if it was disabled
-  if (submitBtn) {
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Envoyer l'épreuve";
-  }
-
-  console.log("✅ Exam terminated and reset to login screen.");
-}
-    
+    // Randomise options but keep first option as placeholder
     function randomizeSelectsKeepFirst() {
       document.querySelectorAll("#partA select").forEach(sel => {
         const opts = Array.from(sel.options);
-        const first = opts.shift(); // remove first
+        const first = opts.shift(); // placeholder
         for (let i = opts.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
           [opts[i].text, opts[j].text] = [opts[j].text, opts[i].text];
@@ -522,293 +883,908 @@ function terminateExam(message) {
         sel.selectedIndex = 0;
       });
     }
-function randomizeQuestionOrder() {
-  const list = document.querySelector("#partA ol");
-  if (!list) return;
 
-  const items = Array.from(list.children);
+    // Randomise question order in Part A
+    function randomizeQuestionOrder() {
+      const list = document.querySelector("#partA ol");
+      if (!list) return;
+      const items = Array.from(list.children);
 
-  // Fisher–Yates shuffle
-  for (let i = items.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [items[i], items[j]] = [items[j], items[i]];
-  }
-
-  // Re-append items in randomized order
-  items.forEach(li => list.appendChild(li));
-}
-    
-    // ----- Start → Confirm -----
-    startBtn.addEventListener("click", () => {
-      const firstName = (studentFirstNameInput.value || "").trim();
-      const lastName  = (studentLastNameInput.value || "").trim().toUpperCase();
-      const email     = (studentEmailInput.value || "").trim();
-      const code      = (classCodeInput.value || "").trim();
-
-      if (!firstName || !lastName || !email) {
-        alert("Merci de remplir toutes les informations (nom, prénom et e-mail).");
-        return;
-      }
-      if (code !== "BLANK") {
-        alert("Code de classe invalide.");
-        return;
+      for (let i = items.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [items[i], items[j]] = [items[j], items[i]];
       }
 
-      const fullName = `${lastName} ${firstName}`;
-
-      confirmName.textContent  = fullName;
-      confirmEmail.textContent = email;
-
-      // Move to Confirm page
-      login.style.display = "none";
-      confirmSec.style.display = "block";
-    });
-
-    // ----- Confirm page: begin exam -----
-    function beginExam() {
-      // Get latest values
-      const firstName = (studentFirstNameInput.value || "").trim();
-      const lastName  = (studentLastNameInput.value || "").trim().toUpperCase();
-      const email     = (studentEmailInput.value || "").trim();
-      const code      = (classCodeInput.value || "").trim();
-
-      const fullName = `${lastName} ${firstName}`;
-
-      // Copy confirmed inputs into hidden fields
-      document.getElementById("studentNameField").value  = fullName;
-      document.getElementById("studentEmailField").value = email;
-      document.getElementById("classCodeField").value    = code;
-
-      // Show Part A
-      confirmSec.style.display = "none";
-      exam.style.display  = "block";
-      partA.classList.add("active");
-      partB.classList.remove("active");
-
-// Mark exam as active
-examActive = true;
-console.log("✅ Exam started – examActive =", examActive);
-
-// If this is the first time, set the deadline...
-if (!examDeadline) {
-  examDeadline = Date.now() + 40 * 60 * 1000;
-}
-
-// If they try to start after the deadline, block it
-if (Date.now() > examDeadline) {
-  alert(
-    "Le délai de 40 minutes est écoulé. Vous ne pouvez plus commencer ou reprendre l'épreuve."
-  );
-  examActive = false;
-  exam.style.display = "none";
-  login.style.display = "block";
-  return;
-}
-
-// 👉 Ignore blur/visibility for a very short startup window
-isStartingExam = true;
-setTimeout(() => {
-  isStartingExam = false;
-  console.log("⏱ Startup grace period over");
-}, 1200);
-
-// Anti-cheat & timer & shuffle
-enableFullScreen();
-startTimer();
-randomizeQuestionOrder();
-randomizeSelectsKeepFirst();
+      items.forEach(li => list.appendChild(li));
     }
 
-    // ----- Confirm page buttons -----
-    confirmBackBtn.addEventListener("click", () => {
-      confirmSec.style.display = "none";
-      login.style.display = "block";
-    });
+    document.addEventListener("DOMContentLoaded", function() {
+      const ua = navigator.userAgent;
+      const isIOSUA =
+        /iPad|iPhone|iPod/.test(ua) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-    confirmBeginBtn.addEventListener("click", () => {
-      beginExam();
-    });
+      isMobile = /Mobi|Android/i.test(ua) || isIOSUA;
 
-    // ----- Navigation Part A <-> Part B -----
-    toPartB.addEventListener("click", () => {
-      partA.classList.remove("active");
-      partB.classList.add("active");
-      ensureQuill();
-    });
-    toPartA.addEventListener("click", () => {
-      partB.classList.remove("active");
-      partA.classList.add("active");
-    });
+      // Disable right-click everywhere
+      document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+      }, { capture: true });
 
-    // ----- Submit -----
-    form.addEventListener("submit", e => {
-      e.preventDefault();
-      submitExam();
-    });
+      // Detect Safari and block exam on this browser
+      const isSafari = /^((?!chrome|crios|fxios|android).)*safari/i.test(ua);
 
-    function submitExam() {
-      // NEW: avoid duplicate submissions (user click + timer, double click, etc.)
-      if (examSubmitted) {
+      if (isSafari) {
+        const main = document.querySelector("main");
+        if (main) {
+          main.innerHTML = `
+            <section class="card">
+              <h2 style="display:flex; align-items:center; gap:8px; margin-top:0;">
+                <span>⚠️</span>
+                <span>Navigateur non pris en charge</span>
+              </h2>
+              <p>
+                Pour des raisons techniques, cette épreuve en ligne n’est pas disponible sur
+                <strong>Safari</strong>.
+              </p>
+              <p>
+                Merci d’ouvrir ce lien dans l’un des navigateurs suivants&nbsp;:
+              </p>
+              <ul>
+                <li><strong>Google Chrome</strong></li>
+                <li><strong>Microsoft Edge</strong></li>
+                <li><strong>Mozilla Firefox</strong></li>
+              </ul>
+              <p class="muted">
+                Si vous voyez encore ce message alors que vous utilisez déjà l’un de ces navigateurs,
+                merci d’en informer immédiatement votre enseignant.
+              </p>
+            </section>
+          `;
+        }
+
+        const timerEl = document.getElementById("timer");
+        if (timerEl) timerEl.textContent = "";
+        return; // stop here on Safari
+      }
+
+      // EmailJS init
+      if (window.emailjs) {
+        try {
+          emailjs.init({
+            publicKey: "Bb0oPYBiZGQcyIz5r",
+          });
+        } catch (e) {
+          console.error("EmailJS init error:", e);
+        }
+      }
+
+      // DOM Elements
+      const login       = document.getElementById("login");
+      const confirmSec  = document.getElementById("confirm");
+      const exam        = document.getElementById("exam");
+      const titleHeader = document.getElementById("examTitleHeader");
+
+      if (titleHeader) {
+        titleHeader.textContent = EXAM_CONFIG.examTitleBase;
+      }
+
+      const startBtn         = document.getElementById("startBtn");
+      const confirmBackBtn   = document.getElementById("confirmBackBtn");
+      const confirmBeginBtn  = document.getElementById("confirmBeginBtn");
+
+      const confirmName   = document.getElementById("confirmName");
+      const confirmEmail  = document.getElementById("confirmEmail");
+      const confirmGroup  = document.getElementById("confirmGroup");
+
+      const partA         = document.getElementById("partA");
+      const partB         = document.getElementById("partB");
+      const toPartA       = document.getElementById("toPartA");
+      const toPartB       = document.getElementById("toPartB");
+
+      const timerDisplay  = document.getElementById("timer");
+      const form          = document.getElementById("examForm");
+
+      const studentFirstNameInput = document.getElementById("studentFirstName");
+      const studentLastNameInput  = document.getElementById("studentLastName");
+      const studentEmailInput     = document.getElementById("studentEmail");
+      const classCodeInput        = document.getElementById("classCode");
+      const groupSelect           = document.getElementById("groupSelect");
+
+      const studentNameField = document.getElementById("studentNameField");
+      const studentEmailField= document.getElementById("studentEmailField");
+      const classCodeField   = document.getElementById("classCodeField");
+      const groupNameField   = document.getElementById("groupNameField");
+
+      // Exit overlay elements
+      const exitOverlay              = document.getElementById("exitOverlay");
+      const exitOverlayMessage       = document.getElementById("exitOverlayMessage");
+      const exitOverlayStay          = document.getElementById("exitOverlayStay");
+      const exitOverlayLeave         = document.getElementById("exitOverlayLeave");
+      const exitOverlayCountdownText = document.getElementById("exitOverlayCountdownText");
+      const exitOverlayCountdownDigits = document.getElementById("exitOverlayCountdownDigits");
+      const exitOverlayStrike        = document.getElementById("exitOverlayStrike");
+
+      // Translation sentinel – detects automatic translation
+      const langSentinel = document.getElementById("langSentinel");
+      const langSentinelBaseline = langSentinel
+        ? langSentinel.textContent.trim()
+        : null;
+
+      if (langSentinel && langSentinelBaseline) {
+        setInterval(() => {
+          if (!examActive || examSubmitted) return;
+
+          const current = langSentinel.textContent.trim();
+          if (current !== langSentinelBaseline) {
+            logEvent(
+              "Possible page translation detected",
+              `Sentinel changed from "${langSentinelBaseline}" to "${current}".`
+            );
+            askToExitExam(
+              "Une modification automatique de la langue de la page a été détectée. " +
+              "Merci de désactiver la traduction et de rester sur la version originale de l'épreuve.",
+              "translationWatch"
+            );
+          }
+        }, 2000);
+      }
+
+      const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+
+      // Safe-blur for Part A dropdowns (iOS)
+      document.querySelectorAll("#partA select").forEach(sel => {
+        sel.addEventListener("mousedown", () => {
+          if (isMobile) armSafeBlur(1500);
+        });
+        sel.addEventListener("touchstart", () => {
+          if (isMobile) armSafeBlur(2000);
+        });
+      });
+
+      // Session activity log
+      const sessionEvents = [];
+
+      function formatTimeStamp(date = new Date()) {
+        try {
+          return date.toLocaleTimeString("fr-FR", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+          });
+        } catch (e) {
+          return date.toISOString();
+        }
+      }
+
+      function logEvent(label, detail) {
+        const entry = {
+          time: formatTimeStamp(),
+          label: label || "",
+          detail: detail || ""
+        };
+        sessionEvents.push(entry);
+        console.log("[SESSION]", entry);
+      }
+
+      // Check required nodes
+      const required = [
+        login, confirmSec, exam, startBtn, confirmBackBtn, confirmBeginBtn,
+        confirmName, confirmEmail, confirmGroup, partA, partB, toPartA, toPartB,
+        timerDisplay, form, studentFirstNameInput, studentLastNameInput,
+        studentEmailInput, classCodeInput, groupSelect
+      ];
+      if (required.some(n => !n)) {
+        console.error("Missing required DOM nodes. Check IDs.", { required });
         return;
       }
-      examSubmitted = true;
 
-      clearInterval(timer);
+      // State flags
+      let examSubmitted = false;
+      let examActive    = false;
+      let isStartingExam = false;
+      let exitPromptOpen = false;
+      let antiCheatSuspendedUntil = 0;
 
-      // Disable submit button and show "sending" state
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = "Envoi en cours…";
+      function setOverlayActive(active) {
+        if (active) {
+          document.body.classList.add("overlay-active", "exit-lock");
+        } else {
+          document.body.classList.remove("overlay-active", "exit-lock");
+        }
       }
 
-      const fd = new FormData(form);
-      const name  = fd.get("studentName")  || document.getElementById("studentNameField").value;
-      const email = fd.get("studentEmail") || document.getElementById("studentEmailField").value;
-      let minutesUsed = 40;
-if (examDeadline) {
-  const remainingMs = examDeadline - Date.now();
-  const remainingMin = Math.max(0, Math.floor(remainingMs / 60000));
-  minutesUsed = 40 - remainingMin;
-}
+      function resetToLanding() {
+        console.log("🔄 resetToLanding called");
 
-      const emailHtml = quill ? quill.root.innerHTML.trim() : "<em>(No response)</em>";
-      const totalQs = document.querySelectorAll('#partA select[name^="q"]').length || 10;
+        try {
+          clearInterval(timer);
+        } catch (e) {
+          console.error("Error clearing timer in resetToLanding:", e);
+        }
 
-      let scoreA = 0;
-      let partARowsHTML = "";
-      for (let i = 1; i <= totalQs; i++) {
-        const sel  = fd.get("q" + i) || "No answer";
-        const corr = correctAnswers["q" + i] || "";
-        const ok   = sel === corr;
-        if (ok) scoreA++;
-        const mark = ok ? "✅ Correct" : `❌ Incorrect → Correct answer: ${corr}`;
-        partARowsHTML += `
-          <tr>
-            <td style="padding:8px;border:1px solid #ccc;">${wordNames[i-1] || ("Q"+i)}</td>
-            <td style="padding:8px;border:1px solid #ccc;">${sel}</td>
-            <td style="padding:8px;border:1px solid #ccc;color:${ok ? 'green' : '#b00'};">${mark}</td>
-          </tr>`;
+        if (exitCountdownTimer) {
+          clearInterval(exitCountdownTimer);
+          exitCountdownTimer = null;
+        }
+
+        examActive = false;
+        examSubmitted = false;
+        isStartingExam = false;
+        exitPromptOpen = false;
+        antiCheatSuspendedUntil = 0;
+        violationCount = 0;
+        sessionEvents.length = 0;
+        setOverlayActive(false);
+
+        if (form) form.reset();
+        if (quill) quill.setText("");
+
+        studentFirstNameInput.value = "";
+        studentLastNameInput.value  = "";
+        studentEmailInput.value     = "";
+        classCodeInput.value        = "";
+        groupSelect.value           = "";
+        selectedGroup               = "";
+        currentExamTitle            = EXAM_CONFIG.examTitleBase;
+
+        if (titleHeader) {
+          titleHeader.textContent = currentExamTitle;
+        }
+
+        login.style.display    = "block";
+        confirmSec.style.display = "none";
+        exam.style.display     = "none";
+
+        if (exitOverlay) exitOverlay.style.display = "none";
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Envoyer l'épreuve";
+        }
+
+        console.log("✅ Landing screen forced.");
       }
 
-      const partBScore = "___ / 10";
-      const finalNote  = "___ / 20";
+      function startTimer() {
+        clearInterval(timer);
+        timer = setInterval(() => {
+          if (!examDeadline) return;
+          const now = Date.now();
+          const remainingMs = examDeadline - now;
+          const totalSec = Math.max(0, Math.floor(remainingMs / 1000));
+          const m = Math.floor(totalSec / 60);
+          const s = totalSec % 60;
 
-      const htmlReport = `
-        <h2 style="color:#004080;margin:0 0 8px 0;">Results – CC - English - – ${name} (M2EFIG1)</h2>
-        <table style="border-collapse:collapse;width:100%;max-width:640px;font-size:14px;margin:0 0 12px 0;">
-          <tr><td style="padding:4px 0;"><b>Student Name:</b> ${name}</td></tr>
-          <tr><td style="padding:4px 0;"><b>Student Email:</b> ${email}</td></tr>
-          <tr><td style="padding:4px 0;"><b>Class Code:</b> M2EFIG1</td></tr>
-          <tr><td style="padding:4px 0;"><b>Time Taken:</b> ${minutesUsed} min</td></tr>
-        </table>
-        <hr style="border:none;border-top:1px solid #ddd;margin:14px 0;">
+          if (timerDisplay) {
+            timerDisplay.textContent = `Time Remaining: ${m}:${s.toString().padStart(2, "0")}`;
 
-        <h3 style="color:#004080;margin:10px 0 8px 0;">Part A – Vocabulary Matching</h3>
-        <table style="border-collapse:collapse;width:100%;font-size:15px;margin-top:8px;">
-          <thead>
-            <tr style="background:#004080;color:#fff;text-align:left;">
-              <th style="padding:8px;border:1px solid #ccc;">Word</th>
-              <th style="padding:8px;border:1px solid #ccc;">Student Answer</th>
-              <th style="padding:8px;border:1px solid #ccc;">Result</th>
+            if (totalSec > 5 * 60) {
+              timerDisplay.style.background  = "#ffffff";
+              timerDisplay.style.color       = "#111827";
+              timerDisplay.style.borderColor = "#4b5563";
+            } else {
+              timerDisplay.style.background  = "#fee2e2";
+              timerDisplay.style.color       = "#b91c1c";
+              timerDisplay.style.borderColor = "#b91c1c";
+            }
+          }
+
+          if (remainingMs <= 0) {
+            clearInterval(timer);
+            submitExam("Time limit reached – exam auto-submitted.");
+          }
+        }, 1000);
+      }
+
+      function enableFullScreen() {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen().catch(err => {
+            console.warn("Fullscreen request failed:", err);
+          });
+        }
+      }
+
+      function terminateExam(message) {
+        console.log("💣 terminateExam called", {
+          message,
+          examActiveBefore: examActive
+        });
+
+        if (!examActive) {
+          console.log("terminateExam called but examActive is already false – ignoring.");
+          return;
+        }
+
+        examActive = false;
+
+        if (exitCountdownTimer) {
+          clearInterval(exitCountdownTimer);
+          exitCountdownTimer = null;
+        }
+        setOverlayActive(false);
+
+        logEvent("Exam terminated", message || "Exam terminated by system.");
+
+        alert(
+          message ||
+          "Vous avez quitté l'écran de l'épreuve. L'épreuve est terminée et doit être recommencée."
+        );
+
+        resetToLanding();
+      }
+
+      function askToExitExam(reason, source) {
+        if (!examActive || examSubmitted || exitPromptOpen) return;
+        if (Date.now() < antiCheatSuspendedUntil) return;
+
+        violationCount += 1;
+
+        if (exitOverlayStrike) {
+          const warnIndex = Math.min(violationCount, MAX_WARNINGS);
+          exitOverlayStrike.textContent = `AVERTISSEMENT ${warnIndex} / ${MAX_WARNINGS}`;
+        }
+
+        const msgBase =
+          reason ||
+          "Vous êtes sur le point de quitter l'écran de l'épreuve. " +
+          "Si vous continuez, votre épreuve sera effacée.";
+
+        const sourceText = source ? `${source} – ` : "";
+
+        // Third event → auto-submit
+        if (violationCount >= MAX_VIOLATIONS) {
+          logEvent(
+            "Anti-cheat limit reached",
+            `${sourceText}violation #${violationCount} – exam auto-submitted.`
+          );
+
+          if (exitCountdownTimer) {
+            clearInterval(exitCountdownTimer);
+            exitCountdownTimer = null;
+          }
+          if (exitOverlay) {
+            exitOverlay.style.display = "none";
+          }
+          setOverlayActive(false);
+
+          alert(
+            "L'épreuve a été automatiquement envoyée après plusieurs sorties de l'écran (3 évènements détectés)."
+          );
+
+          submitExam("Anti-cheat: 3 focus/window/fullscreen events – exam auto-submitted.");
+          return;
+        }
+
+        exitPromptOpen = true;
+
+        const warningSuffix =
+          `\n\nAvertissement ${violationCount} sur 2. ` +
+          `Au-delà, l'épreuve sera automatiquement envoyée.`;
+
+        const fullMsg = msgBase + warningSuffix;
+
+        logEvent(
+          "Exit warning shown",
+          `${sourceText}violation #${violationCount} – warning displayed.`
+        );
+
+        if (exitOverlayMessage) {
+          exitOverlayMessage.textContent = fullMsg.replace(/\n+/g, " ");
+        }
+        if (exitOverlay) {
+          exitOverlay.style.display = "flex";
+        }
+
+        setOverlayActive(true);
+
+        // Start 15-second countdown
+        exitSecondsRemaining = 15;
+        if (exitOverlayCountdownText) {
+          exitOverlayCountdownText.textContent =
+            `Vous avez ${exitSecondsRemaining} secondes pour rester dans l'épreuve ` +
+            `avant qu'elle ne soit interrompue.`;
+        }
+        if (exitOverlayCountdownDigits) {
+          exitOverlayCountdownDigits.textContent = exitSecondsRemaining;
+        }
+
+        if (exitCountdownTimer) {
+          clearInterval(exitCountdownTimer);
+        }
+
+        exitCountdownTimer = setInterval(() => {
+          exitSecondsRemaining -= 1;
+
+          if (exitOverlayCountdownText && exitSecondsRemaining >= 0) {
+            exitOverlayCountdownText.textContent =
+              `Vous avez ${exitSecondsRemaining} secondes pour rester dans l'épreuve ` +
+              `avant qu'elle ne soit interrompue.`;
+          }
+          if (exitOverlayCountdownDigits && exitSecondsRemaining >= 0) {
+            exitOverlayCountdownDigits.textContent = exitSecondsRemaining;
+          }
+
+          if (exitSecondsRemaining <= 0) {
+            clearInterval(exitCountdownTimer);
+            exitCountdownTimer = null;
+            exitPromptOpen = false;
+
+            if (exitOverlay) exitOverlay.style.display = "none";
+            setOverlayActive(false);
+
+            logEvent(
+              "Exit warning timeout",
+              `No interaction on warning #${violationCount}. Exam reset.`
+            );
+
+            terminateExam(
+              "Vous n'êtes pas revenu dans l'épreuve à temps. L'épreuve a été arrêtée et devra être recommencée."
+            );
+          }
+        }, 1000);
+      }
+
+      // Overlay buttons
+      if (exitOverlayStay) {
+        exitOverlayStay.addEventListener("click", () => {
+          if (exitCountdownTimer) {
+            clearInterval(exitCountdownTimer);
+            exitCountdownTimer = null;
+          }
+
+          antiCheatSuspendedUntil = Date.now() + 2000;
+          exitPromptOpen = false;
+
+          if (exitOverlay) exitOverlay.style.display = "none";
+          setOverlayActive(false);
+
+          logEvent(
+            "Student chose to stay in exam",
+            `Returned after warning #${violationCount}. Fullscreen requested again.`
+          );
+
+          if (!document.fullscreenElement && document.documentElement.requestFullscreen) {
+            document.documentElement.requestFullscreen().catch(() => {});
+          }
+        });
+      }
+
+      if (exitOverlayLeave) {
+        exitOverlayLeave.addEventListener("click", () => {
+          if (exitCountdownTimer) {
+            clearInterval(exitCountdownTimer);
+            exitCountdownTimer = null;
+          }
+
+          exitPromptOpen = false;
+          if (exitOverlay) exitOverlay.style.display = "none";
+          setOverlayActive(false);
+
+          logEvent(
+            "Student chose to leave exam",
+            `Exam terminated by user after warning #${violationCount}.`
+          );
+
+          terminateExam(
+            "Vous avez quitté l'écran de l'épreuve. L'épreuve est terminée et doit être recommencée."
+          );
+        });
+      }
+
+      // Force LAST NAME uppercase
+      studentLastNameInput.addEventListener("input", () => {
+        studentLastNameInput.value = studentLastNameInput.value.toUpperCase();
+      });
+
+      // Anti-cheat listeners
+      document.addEventListener("visibilitychange", () => {
+        if (isStartingExam) {
+          console.log("⏱ Ignoring visibilitychange during exam startup");
+          return;
+        }
+        if (!examActive || examSubmitted) return;
+        if (Date.now() < antiCheatSuspendedUntil) return;
+
+        if (document.hidden) {
+          logEvent("Window visibility lost", "Page hidden (visibilitychange)");
+          askToExitExam(
+            "Vous êtes sur le point de quitter l'écran de l'épreuve.",
+            "visibilitychange"
+          );
+        }
+      });
+
+      window.addEventListener("blur", () => {
+        if (isStartingExam) {
+          console.log("⏱ Ignoring blur during exam startup");
+          return;
+        }
+        if (!examActive || examSubmitted) return;
+
+        if (isMobile && Date.now() < safeBlurUntil) {
+          console.log("📱 Blur ignored (inside safe window)", {
+            now: Date.now(),
+            safeBlurUntil
+          });
+          return;
+        }
+
+        if (Date.now() < antiCheatSuspendedUntil) {
+          console.log("⏱ Blur ignored (anti-cheat grace window)");
+          return;
+        }
+
+        logEvent("Window focus lost", "blur event");
+        askToExitExam(
+          "Vous êtes sur le point de quitter la fenêtre de l'épreuve.",
+          "blur"
+        );
+      });
+
+      document.addEventListener("fullscreenchange", () => {
+        console.log("📺 fullscreenchange fired", {
+          examActive,
+          fullscreenElement: !!document.fullscreenElement,
+          isStartingExam
+        });
+
+        if (!examActive || examSubmitted || isStartingExam) return;
+        if (Date.now() < antiCheatSuspendedUntil) return;
+
+        if (!document.fullscreenElement) {
+          logEvent("Fullscreen exited", "fullscreenchange event");
+          askToExitExam(
+            "Vous êtes sur le point de quitter le mode plein écran.",
+            "fullscreenchange"
+          );
+        }
+      });
+
+      document.addEventListener("keydown", e => {
+        if ((e.key === "Escape" || e.key === "Esc") && examActive && !isStartingExam && !examSubmitted) {
+          if (Date.now() < antiCheatSuspendedUntil) return;
+          e.preventDefault();
+
+          logEvent("Escape key pressed", "Possible fullscreen exit (Escape)");
+          askToExitExam(
+            "Vous avez appuyé sur Échap, ce qui quitte le mode plein écran.",
+            "keydown(Escape)"
+          );
+        }
+      });
+
+      // Start from clean landing state
+      resetToLanding();
+
+      function beginExam() {
+        const firstName = (studentFirstNameInput.value || "").trim();
+        const lastName  = (studentLastNameInput.value  || "").trim().toUpperCase();
+        const email     = (studentEmailInput.value     || "").trim();
+        const code      = (classCodeInput.value        || "").trim();
+        const group     = selectedGroup || (groupSelect.value || "").trim();
+
+        const fullName = `${lastName} ${firstName}`;
+
+        studentNameField.value  = fullName;
+        studentEmailField.value = email;
+        classCodeField.value    = code;
+        groupNameField.value    = group;
+
+        confirmSec.style.display = "none";
+        exam.style.display       = "block";
+        partA.classList.add("active");
+        partB.classList.remove("active");
+
+        currentExamTitle = `${EXAM_CONFIG.examTitleBase} (${group})`;
+        if (titleHeader) {
+          titleHeader.textContent = currentExamTitle;
+        }
+
+        examActive    = true;
+        examSubmitted = false;
+        violationCount = 0;
+
+        logEvent("Exam started", `Group: ${group}, Name: ${fullName}`);
+
+        if (!examDeadline) {
+          examDeadline = Date.now() + EXAM_CONFIG.timeLimitMinutes * 60 * 1000;
+          localStorage.setItem(DEADLINE_KEY, String(examDeadline));
+          console.log("⏱ New examDeadline set:", new Date(examDeadline).toISOString());
+        } else {
+          console.log("⏱ Using existing examDeadline:", new Date(examDeadline).toISOString());
+          if (Date.now() > examDeadline) {
+            alert("Le délai de 40 minutes est écoulé. Vous ne pouvez plus commencer l'épreuve.");
+            examActive = false;
+            exam.style.display = "none";
+            login.style.display = "block";
+            return;
+          }
+        }
+
+        isStartingExam = true;
+        setTimeout(() => {
+          isStartingExam = false;
+          console.log("⏱ Startup grace period over");
+        }, 1200);
+
+        enableFullScreen();
+        startTimer();
+        randomizeQuestionOrder();
+        randomizeSelectsKeepFirst();
+      }
+
+      // Start → Confirm
+      startBtn.addEventListener("click", () => {
+        const firstName = (studentFirstNameInput.value || "").trim();
+        const lastName  = (studentLastNameInput.value  || "").trim().toUpperCase();
+        const email     = (studentEmailInput.value     || "").trim();
+        const code      = (classCodeInput.value        || "").trim();
+        const group     = (groupSelect.value           || "").trim();
+
+        if (!firstName || !lastName || !email) {
+          alert("Merci de remplir toutes les informations (nom, prénom et e-mail).");
+          return;
+        }
+
+        if (!group) {
+          alert("Merci de sélectionner votre groupe.");
+          return;
+        }
+
+        const isDebug    = code === EXAM_CONFIG.debugCode;
+        const isRealClass= code === EXAM_CONFIG.classCode;
+
+        if (!isDebug && !isRealClass) {
+          alert("Code de classe invalide.");
+          return;
+        }
+
+        const fullName = `${lastName} ${firstName}`;
+        selectedGroup  = group;
+
+        confirmName.textContent  = fullName;
+        confirmEmail.textContent = email;
+        confirmGroup.textContent = group;
+
+        login.style.display   = "none";
+        confirmSec.style.display = "block";
+      });
+
+      confirmBackBtn.addEventListener("click", () => {
+        confirmSec.style.display = "none";
+        login.style.display      = "block";
+      });
+
+      confirmBeginBtn.addEventListener("click", () => {
+        beginExam();
+      });
+
+      // Navigation Part A <-> Part B
+      toPartB.addEventListener("click", () => {
+        partA.classList.remove("active");
+        partB.classList.add("active");
+        logEvent("Moved to Part B", "Student navigated from Part A to Part B");
+        ensureQuill();
+      });
+
+      toPartA.addEventListener("click", () => {
+        partB.classList.remove("active");
+        partA.classList.add("active");
+        logEvent("Returned to Part A", "Student navigated from Part B to Part A");
+      });
+
+      form.addEventListener("submit", e => {
+        e.preventDefault();
+        submitExam();
+      });
+
+      function submitExam(autoReason) {
+        if (examSubmitted) return;
+        examSubmitted = true;
+
+        clearInterval(timer);
+
+        if (submitBtn) {
+          submitBtn.disabled  = true;
+          submitBtn.textContent = "Envoi en cours…";
+        }
+
+        logEvent("Exam submitted", autoReason || "Student clicked submit");
+
+        const fd = new FormData(form);
+        const name  = fd.get("studentName")  || studentNameField.value;
+        const email = fd.get("studentEmail") || studentEmailField.value;
+
+        let minutesUsed = EXAM_CONFIG.timeLimitMinutes;
+        if (examDeadline) {
+          const remainingMs = examDeadline - Date.now();
+          const remainingMin = Math.max(0, Math.floor(remainingMs / 60000));
+          minutesUsed = EXAM_CONFIG.timeLimitMinutes - remainingMin;
+        }
+
+        const emailHtml = quill ? quill.root.innerHTML.trim() : "<em>(No response)</em>";
+        const totalQs   = document.querySelectorAll('#partA select[name^="q"]').length || 10;
+
+        let scoreA = 0;
+        let partARowsHTML = "";
+        for (let i = 1; i <= totalQs; i++) {
+          const sel  = fd.get("q" + i) || "No answer";
+          const corr = correctAnswers["q" + i] || "";
+          const ok   = sel === corr;
+          if (ok) scoreA++;
+          const mark = ok ? "✅ Correct" : `❌ Incorrect → Correct answer: ${corr}`;
+          partARowsHTML += `
+            <tr>
+              <td style="padding:8px;border:1px solid #ccc;">${wordNames[i - 1] || ("Q" + i)}</td>
+              <td style="padding:8px;border:1px solid #ccc;">${sel}</td>
+              <td style="padding:8px;border:1px solid #ccc;color:${ok ? "green" : "#b00"};">${mark}</td>
+            </tr>`;
+        }
+
+        const partBScore = "___ / 10";
+        const finalNote  = "___ / 20";
+        const group      = selectedGroup || groupNameField.value || EXAM_CONFIG.classLabel;
+
+        // Session activity log HTML
+        let sessionLogHTML = "";
+        if (sessionEvents.length > 0) {
+          const rows = sessionEvents.map(ev => `
+            <tr>
+              <td style="padding:6px 8px;border:1px solid #ccc;">${ev.time}</td>
+              <td style="padding:6px 8px;border:1px solid #ccc;">${ev.label}</td>
+              <td style="padding:6px 8px;border:1px solid #ccc;">${ev.detail}</td>
             </tr>
-          </thead>
-          <tbody>
-            ${partARowsHTML}
-          </tbody>
-        </table>
-        <p style="margin:10px 0 0 0;"><b>Part A Score:</b> ${scoreA} / ${totalQs}</p>
+          `).join("");
 
-        <hr style="border:none;border-top:1px solid #ddd;margin:16px 0;">
+          sessionLogHTML = `
+            <hr style="border:none;border-top:1px solid #ddd;margin:16px 0;">
+            <h4 style="color:#004080;margin:10px 0 8px 0;">Exam session activity log</h4>
+            <table style="border-collapse:collapse;width:100%;font-size:13px;">
+              <thead>
+                <tr style="background:#f3f4f6;color:#111827;text-align:left;">
+                  <th style="padding:6px 8px;border:1px solid #ccc;">Time</th>
+                  <th style="padding:6px 8px;border:1px solid #ccc;">Event</th>
+                  <th style="padding:6px 8px;border:1px solid #ccc;">Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows}
+              </tbody>
+            </table>
+          `;
+        } else {
+          sessionLogHTML = `
+            <hr style="border:none;border-top:1px solid #ddd;margin:16px 0;">
+            <h4 style="color:#004080;margin:10px 0 8px 0;">Exam session activity log</h4>
+            <p style="font-size:13px;color:#4b5563;margin:4px 0 0 0;">
+              Aucun évènement particulier détecté pendant la session (pas de changement de fenêtre ou de sortie du plein écran).
+            </p>
+          `;
+        }
 
-        <h3 style="color:#004080;margin:10px 0 8px 0;">Part B – Written Exercise</h3>
-        <div style="border:1px solid #ccc;border-radius:6px;padding:10px;background:#f9f9f9;">
-          ${emailHtml}
-        </div>
+        const htmlReport = `
+          <h2 style="color:#004080;margin:0 0 8px 0;">
+            Results – ${currentExamTitle} – ${name}
+          </h2>
+          <table style="border-collapse:collapse;width:100%;max-width:640px;font-size:14px;margin:0 0 12px 0;">
+            <tr><td style="padding:4px 0;"><b>Student Name:</b> ${name}</td></tr>
+            <tr><td style="padding:4px 0;"><b>Student Email:</b> ${email}</td></tr>
+            <tr><td style="padding:4px 0;"><b>Group:</b> ${group}</td></tr>
+            <tr><td style="padding:4px 0;"><b>Time Taken:</b> ${minutesUsed} min</td></tr>
+          </table>
+          <hr style="border:none;border-top:1px solid #ddd;margin:14px 0;">
 
-        <table style="border-collapse:collapse;width:100%;font-size:15px;margin-top:6px;">
-          <thead>
-            <tr style="background:#004080;color:#fff;text-align:left;">
-              <th style="padding:8px;border:1px solid #ccc;">Criterion</th>
-              <th style="padding:8px;border:1px solid #ccc;">Maximum</th>
-              <th style="padding:8px;border:1px solid #ccc;">Awarded</th>
+          <h3 style="color:#004080;margin:10px 0 8px 0;">Part A – Vocabulary Matching</h3>
+          <table style="border-collapse:collapse;width:100%;font-size:15px;margin-top:8px;">
+            <thead>
+              <tr style="background:#004080;color:#fff;text-align:left;">
+                <th style="padding:8px;border:1px solid #ccc;">Word</th>
+                <th style="padding:8px;border:1px solid #ccc;">Student Answer</th>
+                <th style="padding:8px;border:1px solid #ccc;">Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${partARowsHTML}
+            </tbody>
+          </table>
+          <p style="margin:10px 0 0 0;"><b>Part A Score:</b> ${scoreA} / ${totalQs}</p>
+
+          <hr style="border:none;border-top:1px solid #ddd;margin:16px 0;">
+
+          <h3 style="color:#004080;margin:10px 0 8px 0;">Part B – Written Exercise</h3>
+          <div style="border:1px solid #ccc;border-radius:6px;padding:10px;background:#f9f9f9;">
+            ${emailHtml}
+          </div>
+
+          <table style="border-collapse:collapse;width:100%;font-size:15px;margin-top:6px;">
+            <thead>
+              <tr style="background:#004080;color:#fff;text-align:left;">
+                <th style="padding:8px;border:1px solid #ccc;">Criterion</th>
+                <th style="padding:8px;border:1px solid #ccc;">Maximum</th>
+                <th style="padding:8px;border:1px solid #ccc;">Awarded</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:8px;border:1px solid #ccc;">Vocabulary Use</td><td style="padding:8px;border:1px solid #ccc;">/3</td><td style="padding:8px;border:1px solid #ccc;">___ / 3</td></tr>
+              <tr><td style="padding:8px;border:1px solid #ccc;">Structure & Clarity</td><td style="padding:8px;border:1px solid #ccc;">/3</td><td style="padding:8px;border:1px solid #ccc;">___ / 3</td></tr>
+              <tr><td style="padding:8px;border:1px solid #ccc;">Language Accuracy & Tone</td><td style="padding:8px;border:1px solid #ccc;">/2</td><td style="padding:8px;border:1px solid #ccc;">___ / 2</td></tr>
+              <tr><td style="padding:8px;border:1px solid #ccc;">Professional Style</td><td style="padding:8px;border:1px solid #ccc;">/2</td><td style="padding:8px;border:1px solid #ccc;">___ / 2</td></tr>
+            </tbody>
+          </table>
+          <p style="margin:12px 0 6px 0;"><b>Part B Score:</b> ${partBScore}</p>
+
+          <hr style="border:none;border-top:1px solid #ddd;margin:16px 0;">
+
+          <h4 style="color:#004080;margin:10px 0 8px 0;">Score Summary</h4>
+
+          <table style="border-collapse:collapse;width:100%;max-width:460px;font-size:15px;">
+            <tr>
+              <td style="padding:8px;border:1px solid #ccc;">Part A Score</td>
+              <td style="padding:8px;border:1px solid #ccc;">${scoreA} / ${totalQs}</td>
             </tr>
-          </thead>
-          <tbody>
-            <tr><td style="padding:8px;border:1px solid #ccc;">Vocabulary Use</td><td style="padding:8px;border:1px solid #ccc;">/3</td><td style="padding:8px;border:1px solid #ccc;">___ / 3</td></tr>
-            <tr><td style="padding:8px;border:1px solid #ccc;">Structure & Clarity</td><td style="padding:8px;border:1px solid #ccc;">/3</td><td style="padding:8px;border:1px solid #ccc;">___ / 3</td></tr>
-            <tr><td style="padding:8px;border:1px solid #ccc;">Language Accuracy & Tone</td><td style="padding:8px;border:1px solid #ccc;">/2</td><td style="padding:8px;border:1px solid #ccc;">___ / 2</td></tr>
-            <tr><td style="padding:8px;border:1px solid #ccc;">Professional Style</td><td style="padding:8px;border:1px solid #ccc;">/2</td><td style="padding:8px;border:1px solid #ccc;">___ / 2</td></tr>
-          </tbody>
-        </table>
-        <p style="margin:12px 0 6px 0;"><b>Instructor Comments:</b></p>
-        <div style="border:1px solid #ccc;border-radius:6px;padding:10px;background:#fdfdfd;min-height:48px;">
-          [Type feedback here]
-        </div>
-        <p style="margin:10px 0 0 0;"><b>Part B Score:</b> ${partBScore}</p>
+            <tr>
+              <td style="padding:8px;border:1px solid #ccc;">Part B Score</td>
+              <td style="padding:8px;border:1px solid #ccc;">${partBScore}</td>
+            </tr>
+            <tr>
+              <td style="padding:8px;border:1px solid #ccc;"><b>Final Note</b></td>
+              <td style="padding:8px;border:1px solid #ccc;"><b>${finalNote}</b></td>
+            </tr>
+          </table>
 
-        <hr style="border:none;border-top:1px solid #ddd;margin:16px 0;">
+          ${sessionLogHTML}
 
-        <h4 style="color:#004080;margin:10px 0 8px 0;">Score Summary</h4>
+          <div style="border-top:1px solid #ccc;margin-top:16px;padding-top:8px;font-size:12px;color:#555;">
+            <em>This report was generated automatically for the English Exam – Risk &amp; Financial Control.</em>
+          </div>
+        `;
 
-        <table style="border-collapse:collapse;width:100%;max-width:460px;font-size:15px;">
-          <tr>
-            <td style="padding:8px;border:1px solid #ccc;">Part A Score</td>
-            <td style="padding:8px;border:1px solid #ccc;">${scoreA} / ${totalQs}</td>
-          </tr>
-          <tr>
-            <td style="padding:8px;border:1px solid #ccc;">Part B Score</td>
-            <td style="padding:8px;border:1px solid #ccc;">${partBScore}</td>
-          </tr>
-          <tr>
-            <td style="padding:8px;border:1px solid #ccc;"><b>Final Note</b></td>
-            <td style="padding:8px;border:1px solid #ccc;"><b>${finalNote}</b></td>
-          </tr>
-        </table>
+        const subject = EXAM_CONFIG.emailSubjectTemplate
+          .replace("(NAME)", name)
+          .replace("(GROUP)", group);
 
-        <div style="border-top:1px solid #ccc;margin-top:16px;padding-top:8px;font-size:12px;color:#555;">
-          <em>This report was generated automatically for the English Exam – Business Resources.</em>
-        </div>
-      `;
-
-      const subject = "(NAME) CC - English - M2 EFI G1".replace("(NAME)", name);
-
-    if (window.emailjs) {
-  emailjs
-    .send(
-      "service_opm4h6b",
-      "template_r0u784p",
-      {
-        from_name: name,
-        from_email: email,
-        subject,
-        message_html: htmlReport,
-      },
-      "Bb0oPYBiZGQcyIz5r" // public key again here
-    )
-    .then(() => {
-      alert("✅ Épreuve envoyée avec succès.");
-      exam.style.display = "none";
-    })
-    .catch((err) => {
-      alert(
-        "❌ Erreur lors de l'envoi de l'épreuve : " +
-          (err && err.text ? err.text : err)
-      );
-      console.error("EmailJS Error:", err);
-      examSubmitted = false;
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Envoyer l'épreuve";
+        if (window.emailjs) {
+          emailjs
+            .send(
+              "service_opm4h6b",
+              "template_r0u784p",
+              {
+                from_name: name,
+                from_email: email,
+                subject,
+                message_html: htmlReport
+              },
+              "Bb0oPYBiZGQcyIz5r"
+            )
+            .then(() => {
+              alert("✅ Épreuve envoyée avec succès.");
+              localStorage.removeItem(DEADLINE_KEY);
+              examDeadline = null;
+              resetToLanding();
+            })
+            .catch(err => {
+              alert(
+                "❌ Erreur lors de l'envoi de l'épreuve : " +
+                (err && err.text ? err.text : err)
+              );
+              console.error("EmailJS Error:", err);
+              examSubmitted = false;
+              if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Envoyer l'épreuve";
+              }
+            });
+        } else {
+          alert("EmailJS n'est pas chargé ; envoi simulé.");
+          examSubmitted = false;
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Envoyer l'épreuve";
+          }
+        }
       }
     });
-} else {
-  alert("EmailJS n'est pas chargé ; envoi simulé.");
-  examSubmitted = false;
-  if (submitBtn) {
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Envoyer l'épreuve";
-  }
-}
-    }
-  });
-</script>
+  </script>
+</body>
+</html>
