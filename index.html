@@ -370,11 +370,13 @@
       <label>Adresse e-mail :</label>
       <input type="email" id="studentEmail" required>
 
-      <label>Groupe :</label>
-      <select id="groupSelect" required>
-        <option value="">Sélectionner votre groupe</option>
-        <option value="M2 EFI G1">M2 EFI G1</option>
-      </select>
+    <label>Groupe :</label>
+<select id="groupSelect" required>
+  <option value="">Sélectionner votre groupe</option>
+  <option value="M2 EFI G1">M2 EFI G1</option>
+  <option value="M2 EFI G2">M2 EFI G2</option>
+  <option value="M2 EFI G3">M2 EFI G3</option>
+</select>
 
       <label>Code de classe :</label>
       <input type="text" id="classCode" required>
@@ -759,16 +761,16 @@
 
   <script>
     // ----- Global configuration for this exam -----
-    const EXAM_CONFIG = {
-      examId: "M2EFIG1_CC_RISK_2025",
-      classCode: "BLANK",        // <-- put real code here before exam
-      debugCode: "DEBUG",
-      examTitleBase: "CC - English — Risk & Financial Control",
-      allowedGroups: ["M2 EFI G1"],
-      timeLimitMinutes: 40,
-      emailSubjectTemplate: "(NAME) CC - English - M2 EFI G1",
-      classLabel: "M2EFIG1"
-    };
+  const EXAM_CONFIG = {
+  examId: "M2MD_CC1_2025",
+  classCode: "BLANK",        // <-- put real code here before exam
+  debugCode: "DEBUG",
+  examTitleBase: "CC1 - English — Risk & Financial Control",
+  allowedGroups: ["M2 EFI G1", "M2 EFI G2", "M2 EFI G3"],
+  timeLimitMinutes: 60,
+  emailSubjectTemplate: "CC1 - English — Risk & Financial Control  (GROUP) – (NAME)",
+  classLabel: "M2EFI"
+};
 
     const DEADLINE_KEY = "examDeadline_" + EXAM_CONFIG.examId;
     let examDeadline = null;
